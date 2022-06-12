@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>to-go-struct</id>
+    <id>another-to-go-struct</id>
     <name>Convert JSON/SQL to GO Struct</name>
-    <vendor email="github.haoliu@gmail.com" >Hao Liu</vendor>
+    <vendor email="mindawang87@gmail.com" >Hao Liu</vendor>
 
     <description><![CDATA[
         <p>Convert JSON or SQL create table to Go Struct.</p>
