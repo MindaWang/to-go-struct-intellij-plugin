@@ -4,7 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
 }
 
-group 'to-go=struct'
+group 'another-to-go=struct'
 version '1.0.0'
 sourceCompatibility = 1.8
 
@@ -30,9 +30,7 @@ patchPluginXml {
     sinceBuild '141'
     untilBuild '666'
     changeNotes """
-        1. Fixed some key missing after convert.<br>
-        2. Support automatic saving of custom tags<br>
-        3. Added crud function generation <br>
+        1. Fixed can' identity index token bug.<br>
       """
 }
 
