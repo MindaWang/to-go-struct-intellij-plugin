@@ -18,6 +18,7 @@ class SQLStructBuilder : Builder, Consumer<SQLColumnDefinition> {
     }
 
     private fun String.convertType() = typeMap.getOrDefault(this.toLowerCase(), "unknown")
+    private fun String.convertNullType() = nullTypeMap.getOrDefault(this.toLowerCase(), "unknown")
 
     fun makeComment(comment: SQLExpr?): String {
         if (comment == null) {
@@ -51,7 +52,13 @@ class SQLStructBuilder : Builder, Consumer<SQLColumnDefinition> {
                     name += " unsigned"
                 }
             }
-            val t = name.convertType()
+            var t = ""
+            if (i.containsNotNullConstaint()) {
+               t = name.convertType()
+            }else{
+                t = name.convertNullType()
+            }
+
             val field = i.nameAsString
 
             sb.append(makeField(field, t, i.comment))
@@ -123,6 +130,45 @@ class SQLStructBuilder : Builder, Consumer<SQLColumnDefinition> {
         "binary" to "[]byte",
         "varbinary" to "[]byte",
         "boolean" to "bool"
+    )
+
+    private var nullTypeMap = hashMapOf(
+        "int" to "sql.NullInt64",
+        "integer" to "sql.NullInt64",
+        "tinyint" to "sql.NullInt32",
+        "smallint" to "sql.NullInt32",
+        "mediumint" to "sql.NullInt64",
+        "bigint" to "sql.NullInt64",
+        "int unsigned" to "sql.NullInt64",
+        "integer unsigned" to "sql.NullInt64",
+        "tinyint unsigned" to "sql.NullInt64",
+        "smallint unsigned" to "sql.NullInt64",
+        "mediumint unsigned" to "sql.NullInt64",
+        "bigint unsigned" to "sql.NullInt64",
+        "bit" to "byte",
+        "bool" to "sql.NullBool",
+        "enum" to "sql.NullString",
+        "set" to "sql.NullString",
+        "varchar" to "sql.NullString",
+        "char" to "sql.NullString",
+        "tinytext" to "sql.NullString",
+        "mediumtext" to "sql.NullString",
+        "text" to "sql.NullString",
+        "longtext" to "sql.NullString",
+        "blob" to "[]byte",
+        "tinyblob" to "[]byte",
+        "mediumblob" to "[]byte",
+        "longblob" to "[]byte",
+        "date" to "sql.NullTime",
+        "datetime" to "sql.NullTime",
+        "timestamp" to "sql.NullTime",
+        "time" to "sql.NullTime",
+        "float" to "sql.NullFloat64",
+        "double" to "sql.NullFloat64",
+        "decimal" to "sql.NullFloat64",
+        "binary" to "[]byte",
+        "varbinary" to "[]byte",
+        "boolean" to "sql.NullBool"
     )
 
 }
